@@ -32,7 +32,7 @@ const data = {
             time: [9, 7, 8, 6],
           },
           {
-            date: '2022-01-02T20:00:00.000Z',
+            date: '2022-12-02T20:00:00.000Z',
             time: [6, 7, 8, 7],
           },
         ],
@@ -64,15 +64,15 @@ const data = {
     },
   },
 };
-// const date = data.response.data.NM372.races[data.response.data.NM372.races.length-1];
-// const obj = new Date(date.date);
-// console.log(obj.getDate());
-// console.log(obj.getMonth());
+const date = data.response.data.NM372.races[data.response.data.NM372.races.length-1];
+const obj = new Date(date.date);
+console.log(obj.getDate());
+console.log(obj.getMonth());
 
 // Only edit below this comment
 
 const createHtml = (athlete) => {
-  const {firstName, surname, id, races}= data.response.data.athlete;  // get values for each variable
+  const {firstName, surname, id, races}= athlete;  // get values for each variable
 
 
   const fragment = document.createDocumentFragment();
@@ -90,11 +90,11 @@ const createHtml = (athlete) => {
   const month = MONTHS[dateObj.getMonth()]; // use month as key = 1 - to get shortened month name
   const year = dateObj.getFullYear(); /// get year 
 
-  const {first, second, third, fourth} = lastRace.time; // destructuring array
+  const [first, second, third, fourth] = lastRace.time; // destructuring array
   const total = first + second + third + fourth; // added const 
 
   const hours = Math.floor(total / 60);
-  const minutes = Math.floor(total / hours / 60);
+  const minutes = Math.floor(total % 60);
 
 
   list.innerHTML = `
@@ -108,8 +108,8 @@ const createHtml = (athlete) => {
   <dd>${day}:${month}:${year}</dd>
 
   <dt>Total Time (Latest)</dt>
-  <dd>${hours.toString().padStart(2, '0')}:${minutes}</dd>
-`;
+  <dd>${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}</dd>
+  `;
 
   fragment.appendChild(list);
   return fragment;
