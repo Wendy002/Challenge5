@@ -93,28 +93,30 @@ const createHtml = (athlete) => {
   const {first, second, third, fourth} = lastRace.time; // destructuring array
   const total = first + second + third + fourth; // added const 
 
-  const hours = total / 60;
-  const minutes = total / hours / 60;
+  const hours = Math.floor(total / 60);
+  const minutes = Math.floor(total / hours / 60);
 
 
-  list.innerHTML = /* html */ `
+  list.innerHTML = `
   <dt>Athlete</dt>
   <dd>${firstName}, ${surname}</dd>
 
   <dt>Total Races</dt>
-  <dd>${races}</dd>
+  <dd>${races.length}</dd>
 
   <dt>Event Date (Latest)</dt>
   <dd>${day}:${month}:${year}</dd>
 
   <dt>Total Time (Latest)</dt>
-  <dd>${hours.padStart(2, 0)}:${minutes}</dd>
+  <dd>${hours.toString().padStart(2, '0')}:${minutes}</dd>
 `;
 
   fragment.appendChild(list);
-}
+  return fragment;
+};
 
-
-const {NM372, SV782} = data
-document.querySelector('section[data-athlete="NM372"]').appendChild(createHtml(NM372));
-document.querySelector('section[data-athlete="SV782"]').appendChild(createHtml(SV782));
+const { response: { data: 
+  { NM372, SV782, }
+  }, } = data;
+document.querySelector(['[data-athlete="NM372"]']).appendChild(createHtml(NM372));
+document.querySelector(['[data-athlete="SV782"]']).appendChild(createHtml(SV782));
